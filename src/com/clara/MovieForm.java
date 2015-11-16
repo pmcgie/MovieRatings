@@ -60,7 +60,7 @@ public class MovieForm extends JFrame implements WindowListener{
                     yearData = Integer.parseInt(yearTextField.getText());
                     if (yearData < 1900 || yearData > Calendar.getInstance().get(Calendar.YEAR)){
                         //Calendar.getInstance() returns a Calendar object representing right now.
-                        //calendarobject.get(Calendar.MONTH) gets current month, calendarobject.get(Calendar.SECOND) gets current second
+                        //calenderObject.get(Calendar.MONTH) gets current month, calenderObject.get(Calendar.SECOND) gets current second
                         //Can get and set other time/date fields- check Java documentation for others
                         //http://docs.oracle.com/javase/7/docs/api/java/util/Calendar.html
                         throw new NumberFormatException("Year needs to be between 1900 and present year");
@@ -98,6 +98,10 @@ public class MovieForm extends JFrame implements WindowListener{
             @Override
             public void actionPerformed(ActionEvent e) {
                 int currentRow = movieDataTable.getSelectedRow();
+
+                if (currentRow == -1) {      // -1 means no row is selected. Display error message.
+                    JOptionPane.showMessageDialog(rootPane, "Please choose a movie to delete");
+                }
                 boolean deleted = movieDataTableModel.deleteRow(currentRow);
                 if (deleted) {
                     MovieDatabase.loadAllMovies();
