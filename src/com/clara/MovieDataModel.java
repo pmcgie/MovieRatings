@@ -1,4 +1,4 @@
-package com.clara;
+package com.clara; 
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -13,7 +13,7 @@ public class MovieDataModel extends AbstractTableModel {
 
     public MovieDataModel(ResultSet rs) {
         this.resultSet = rs;
-        setup();
+        setup(); 
     }
 
     private void setup(){
