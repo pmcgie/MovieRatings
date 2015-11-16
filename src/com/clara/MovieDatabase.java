@@ -4,7 +4,7 @@ import java.sql.*;
 public class MovieDatabase {
 
     private static String DB_CONNECTION_URL = "jdbc:mysql://localhost:3306/";
-    private static final String DB_NAME = "movies";   //TODO CHANGE
+    private static final String DB_NAME = "movies";
     private static final String USER = "root";
     private static final String PASS = "";
 
@@ -28,9 +28,7 @@ public class MovieDatabase {
 
         //setup creates database (if it doesn't exist), opens connection, and adds sample data
 
-
         if (!setup()) {
-
             System.exit(-1);
         }
 
@@ -92,19 +90,19 @@ public class MovieDatabase {
             // allows us to move the cursor both forward and backwards through the RowSet
             // we get from this statement.
 
-            // (Some databases support TYPE_SCROLL_SENSITIVE, which means the ResultSet will be updated when
-            // something else changes the database. Since Derby is embedded we don't need to worry about anything
-            // else updating the database. If you were using a server DB you might need to be concerned about this.)
+            // Another option is TYPE_SCROLL_SENSITIVE, which means the ResultSet will be updated when
+            // something *else* changes the database. If your DB server was shared, you might need to be concerned about this.)
 
             // The TableModel will need to go forward and backward through the ResultSet.
             // by default, you can only move forward - it's less
             // resource-intensive than being able to go in both directions.            
             // If you set one argument, you need the other. 
-            // The second one (CONCUR_UPDATABLE) means you will be able to change the ResultSet and see the changes in the DB
+            // The second one (CONCUR_UPDATABLE) means you will be able to change the ResultSet and these
+            // changes will be made to the DB.... so long as you have a table with a primary key in it. (Otherwise
+            // your database isn't able to definitively identify what has been changed).
             statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
             //Does the table exist? If not, create it.
-
             if (!movieTableExists()) {
 
                 //Create a table in the database with 3 columns: Movie title, year and rating
@@ -113,7 +111,7 @@ public class MovieDatabase {
                 statement.executeUpdate(createTableSQL);
 
                 System.out.println("Created movie_reviews table");
-                //Add some test data - change to some movies you like, if desired
+                // Add some test data - change to some movies you like, if desired
                 String addDataSQL = "INSERT INTO " + MOVIE_TABLE_NAME + " VALUES ('Back to the future', 1985, 5)";
                 statement.executeUpdate(addDataSQL);
                 addDataSQL = "INSERT INTO " + MOVIE_TABLE_NAME + " VALUES ('Back to the Future II', 1989, 4)";

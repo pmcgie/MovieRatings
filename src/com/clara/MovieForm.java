@@ -77,13 +77,7 @@ public class MovieForm extends JFrame implements WindowListener{
                 System.out.println("Adding " + titleData + " " + yearData + " " + ratingData);
                 boolean insertedRow = movieDataTableModel.insertRow(titleData, yearData, ratingData);
                 if (insertedRow) {
-                    //The table model makes calls that look like they've have updated the resultSet, and which update the database.
-                    //What actually happens is that the ResultSet does update the database, but it doesn't update itself.
-                    //Since the table model is using a ResultSet, it won't see the changes.
-                    //(Other databases can support updatable ResultSets, where both the DB and ResultSet change.)
-                    //But with Derby, we need to close the current ResultSet and request a new one
-                   // MovieDatabase.loadAllMovies();
-                    //TODO Verify movie saved in DB
+                    //The table model made calls that updated the ResultSet, and which update the database, and the GUI. Cool!
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "Error adding new movie");
                 }
@@ -114,8 +108,8 @@ public class MovieForm extends JFrame implements WindowListener{
         });
     }
 
-    //windowListener methods. Only need one of them, but are required to implement them anyway
-    //WindowClosing will call DB shutdown code.
+    //windowListener methods. Only need one of them, but are required to implement the others anyway
+    //WindowClosing will call DB shutdown code, which is important, so the DB is in a consistent state however the application is closed.
 
     @Override
     public void windowClosing(WindowEvent e) {
