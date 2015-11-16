@@ -1,8 +1,6 @@
 package com.clara;
 
 import javax.swing.*;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,7 +26,7 @@ public class MovieForm extends JFrame implements WindowListener{
         setTitle("Movie Database Application");
         addWindowListener(this);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 
         //Set up JTable
@@ -76,11 +74,11 @@ public class MovieForm extends JFrame implements WindowListener{
 
                 System.out.println("Adding " + titleData + " " + yearData + " " + ratingData);
                 boolean insertedRow = movieDataTableModel.insertRow(titleData, yearData, ratingData);
-                if (insertedRow) {
-                    //The table model made calls that updated the ResultSet, and which update the database, and the GUI. Cool!
-                } else {
+
+                if (!insertedRow) {
                     JOptionPane.showMessageDialog(rootPane, "Error adding new movie");
                 }
+                // If insertedRow is true and the data was added, it should show up in the table, so no need for confirmation message.
             }
 
         });
