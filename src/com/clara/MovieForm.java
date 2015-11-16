@@ -88,7 +88,7 @@ public class MovieForm extends JFrame implements WindowListener{
             @Override
             public void actionPerformed(ActionEvent e) {
                 MovieDatabase.shutdown();
-                System.exit(0);
+                System.exit(0);   //Should probably be a call back to Main class so all the System.exit(0) calls are in one place.
             }
         });
 
