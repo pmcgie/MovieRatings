@@ -29,6 +29,7 @@ public class MovieDataModel extends AbstractTableModel {
 
     }
 
+
     public void updateResultSet(ResultSet newRS){
         resultSet = newRS;
         setup();
@@ -82,7 +83,7 @@ public class MovieDataModel extends AbstractTableModel {
     //This is called when user edits an editable cell
     public void setValueAt(Object newValue, int row, int col) {
 
-        //Make sure o is an integer AND that it is in the range of valid ratings
+        //Make sure newValue is an integer AND that it is in the range of valid ratings
 
         int newRating;
 
@@ -102,9 +103,6 @@ public class MovieDataModel extends AbstractTableModel {
         }
 
         //This only happens if the new rating is valid
-        //Derby will permit you to update a ResultSet and see the changes in the
-        //ResultSet and the database. Compare to inserting/deleting where you need
-        //to make a new ResultSet to see the changes.
         try {
             resultSet.absolute(row + 1);
             resultSet.updateInt(MovieDatabase.RATING_COLUMN, newRating);
@@ -114,7 +112,6 @@ public class MovieDataModel extends AbstractTableModel {
             System.out.println("error changing rating " + e);
         }
 
-
     }
 
 
@@ -122,10 +119,11 @@ public class MovieDataModel extends AbstractTableModel {
     //We only want user to be able to edit column 2 - the rating column.
     //If this method always returns true, the whole table will be editable.
 
-    //TODO how can we avoid using a magic number (if col==2) ) here? This code depends on column 2 being the rating.
+    //TODO how can we avoid using a magic number (if col==3) ) here? This code depends on column 3 being the rating.
+    //This might change if we were to add more data to our table, for example storing names of people who created the review.
     //TODO To fix: look into table column models, and generate the number columns based on the columns found in the ResultSet.
     public boolean isCellEditable(int row, int col){
-        if (col == 2) {
+        if (col == 3) {
             return true;
         }
         return false;
@@ -157,10 +155,6 @@ public class MovieDataModel extends AbstractTableModel {
             resultSet.insertRow();
             resultSet.moveToCurrentRow();
             fireTableDataChanged();
-            //This change goes to DB but is *not* reflected in this result set
-            //So need to close and re-open result set to see latest data
-            //Return true to the calling method so we know that the ResultSet
-            //was successfully updated, and it can request a new ResultSet for this tablemodel.
             return true;
 
         } catch (SQLException e) {
