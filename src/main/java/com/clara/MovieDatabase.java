@@ -1,4 +1,6 @@
 package com.clara;
+import com.mysql.cj.api.jdbc.Statement;
+
 import java.sql.*;
 
 public class MovieDatabase {
@@ -103,7 +105,7 @@ public class MovieDatabase {
             // The second one (CONCUR_UPDATABLE) means you will be able to change the ResultSet and these
             // changes will be made to the DB.... so long as you have a table with a primary key in it. (Otherwise
             // your database isn't able to definitively identify what has been changed).
-            statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            statement = (Statement) conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
             //Does the table exist? If not, create it.
             if (!movieTableExists()) {
